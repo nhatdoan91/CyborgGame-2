@@ -13,12 +13,12 @@ public class CollideWithDroneCommand extends Command {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		System.out.println("Collided With an Drone");
-		gw.findPlayerCyborg().collideWithDrone();
+		gw.collideWithDrone();
 		if(gw.findPlayerCyborg().isBroken())
 		{
 			gw.cyborgReset();
 		}
-		gw.collideWithDrone();
+	
 	}
 
 }

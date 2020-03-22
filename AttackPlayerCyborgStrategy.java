@@ -1,19 +1,19 @@
 package com.mycompany.a2;
+import com.codename1.charts.models.Point;
 import com.codename1.util.MathUtil;
 public class AttackPlayerCyborgStrategy implements IStrategy {
-	private GameWorld gw = new GameWorld();
+	private GameWorld gw;
 	private NonPlayerCyborg npc;
-	private Point playerLocation;
-	float x,y;
-	public AttackPlayerCyborgStrategy(NonPlayerCyborg npc) {
+	public AttackPlayerCyborgStrategy(NonPlayerCyborg npc,GameWorld gw) {
 		this.npc=npc;
+		this.gw=gw;
 	}
 	
 	public void apply() {
-		playerLocation = gw.findPlayerCyborg().getLocation();
-		x=npc.getX()-playerLocation.getX();
-		y=npc.getY()-playerLocation.getY();
-		int angle = (int)Math.toDegrees( MathUtil.atan2(y, x));
+		Point playerLocation = gw.findPlayerCyborg().getLocation();
+		float x=npc.getX()-playerLocation.getX();
+		float y=npc.getY()-playerLocation.getY();
+		int angle = 90-(int)Math.toDegrees( MathUtil.atan2(Math.abs(y), Math.abs(x)));
 		if(x>0)
 		{
 			if(y>0) {
@@ -29,7 +29,7 @@ public class AttackPlayerCyborgStrategy implements IStrategy {
 			}else if(y<0){
 				
 			}else {
-				angle = 270;
+				angle = 90;
 			}
 		}else {
 			if(y>0) {
@@ -41,30 +41,58 @@ public class AttackPlayerCyborgStrategy implements IStrategy {
 			}
 		}
 		// change heading of NPC
-		int condition1 = npc.getHeading()-90;
-		int condition2 = npc.getHeading()-90;
-		if(condition1 < 0 )
+		System.out.println("angle"+ angle);
+		if(npc.getHeading()>angle)
 		{
-			condition1=360+condition1;
-		}if(condition2 < 0 )
-		{
-			condition2=360+condition2;
-		}
-		if((Math.abs(condition1-angle))>(Math.abs(condition2-angle)))
-		{
-			if(Math.abs(npc.getHeading()-angle )<40)
-			{	
-				npc.setHeading(npc.getHeading()-Math.abs(npc.getHeading()-angle ));
+			if(npc.getHeading()-angle>=180)
+			{
+				if(npc.getHeading()-angle>40) {
+					npc.setSteeringDirection(40);
+					npc.setSpeed(0);
+				}
+				else
+				{
+					npc.setSteeringDirection(40-(npc.getHeading()-angle));
+					npc.setSpeed(0);
+				}
 			}else {
-				npc.setHeading(npc.getHeading()-40);
+				if(npc.getHeading()-angle>40) {
+					npc.setSteeringDirection(-40);
+					npc.setSpeed(0);
+				}
+				else
+				{
+					npc.setSteeringDirection(-(npc.getHeading()-angle));
+					npc.setSpeed(0);
+				}
+			}
+		}else if (npc.getHeading()<angle)
+		{
+			if(angle-npc.getHeading()>=180)
+			{
+				if(360-angle+npc.getHeading()>40) {
+					npc.setSteeringDirection(-40);
+					npc.setSpeed(0);
+				}
+				else
+				{
+					npc.setSteeringDirection(-(360-angle+npc.getHeading()));
+					npc.setSpeed(0);
+				}
+			}else {
+				if(360-angle+npc.getHeading()>40) {
+					npc.setSteeringDirection(40);
+					npc.setSpeed(0);
+				}
+				else
+				{
+					npc.setSteeringDirection(40-(360-angle+npc.getHeading()));
+					npc.setSpeed(0);
+				}
 			}
 		}else {
-			if(Math.abs(npc.getHeading()-angle )<40)
-			{	
-				npc.setHeading(npc.getHeading()+Math.abs(npc.getHeading()-angle ));
-			}else {
-				npc.setHeading(npc.getHeading()+40);
-			}
+			npc.setSteeringDirection(0);
+			npc.setSpeed(npc.getMaximumSpeed());
 		}
 	}
 }

@@ -91,6 +91,7 @@ abstract public class Cyborg extends Movable implements ISteerable {
 	public void speedUp()
 	{
 		super.setSpeed(super.getSpeed()+5);
+		this.setSpeedWhileDamage();
 		if(this.isMaxSpeed())
 		{
 			super.setSpeed(maximumSpeed);
@@ -100,6 +101,7 @@ abstract public class Cyborg extends Movable implements ISteerable {
 	public void slowDown()
 	{
 		super.setSpeed(super.getSpeed()-5);
+		this.setSpeedWhileDamage();
 		if(super.getSpeed()<=0)
 		{
 			super.setSpeed(0);
@@ -112,8 +114,8 @@ abstract public class Cyborg extends Movable implements ISteerable {
 	public boolean isOutOfBattery() {
 		return (this.getEnergyLevel()<=0);
 	}
-	public void reduceSpeedWithDamage() {
-		 this.setSpeed((this.getSpeed()*this.damageLevel)/10);
+	public int reduceSpeedWithDamage() {
+		 return ((this.getSpeed()*this.damageLevel)/10);
 	}
 	
 	public void baseReach(int baseNumber) {

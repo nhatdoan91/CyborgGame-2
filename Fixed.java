@@ -8,4 +8,7 @@ abstract public class Fixed extends GameObject{
 		String thisClassString=super.toString();
 		return thisClassString;
 	}
+	@Override
+	public void setLocation(float x, float y) {	
+	}
 }

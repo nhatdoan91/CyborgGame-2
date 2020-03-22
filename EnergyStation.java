@@ -22,8 +22,6 @@ public class EnergyStation extends Fixed {
 	}
 	@Override
 	public void setSize(int size) {}
-	public void setLocation(float x, float y)
-	{}
 	public String toString() 
 	{
 		String thisClassData = "EnergyStation "+super.toString()+(" Capacity = "+this.getenergyCapacity());

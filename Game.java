@@ -80,7 +80,7 @@ public class Game extends Form{
 		bottomContainer.add(new GameButton(tick));
 		addKeyListener('t',tick);
 		bottomContainer.setHeight(100);
-		bottomContainer.getAllStyles().setPadding(Component.LEFT, 355);
+		bottomContainer.getAllStyles().setPadding(Component.LEFT, 340);
 		bottomContainer.getAllStyles().setBorder(Border.createLineBorder(1,ColorUtil.GRAY));
 		add(BorderLayout.SOUTH,bottomContainer);
 	}

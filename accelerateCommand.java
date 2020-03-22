@@ -16,7 +16,6 @@ public class accelerateCommand extends Command{
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		gw.findPlayerCyborg().speedUp();
 		System.out.println("Accelerate");
 		gw.setConsoleDisplay("Cybrog was just accelerated\n");
 		gw.SpeedUp();

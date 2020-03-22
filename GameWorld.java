@@ -160,10 +160,7 @@ public class GameWorld extends Observable implements IGameWorld {
 		char d='d',b='b',c='c',e='e',n='n';
 		int numberOfBase=0;
 		createGameObject(c);
-		for(int i=1; i<= 3; i++)
-		{
-			createGameObject(n);
-		}
+	
 		numberOfDrone=2+random.nextInt(4);
 		numberOfEnergyStation=2+random.nextInt(4);
 		lastBase=4+random.nextInt(6);
@@ -171,6 +168,10 @@ public class GameWorld extends Observable implements IGameWorld {
 		{
 			createGameObject(b);
 			
+		}
+		for(int i=1; i<= 3; i++)
+		{
+			createGameObject(n);
 		}
 		System.out.println("New Map was just created \n There are 3 NPC, "+  this.lastBase+" bases, "+numberOfDrone+" drones, "+numberOfEnergyStation+" energy stations was created!");
 		IIterator theObjects = myObjectCollection.getIterator();
@@ -182,9 +183,39 @@ public class GameWorld extends Observable implements IGameWorld {
 				base.setSequenceNumber(numberOfBase+1);
 				if(numberOfBase+1==1)
 				{
-					findPlayerCyborg().setLocation(findBase().getLocation());
+					findPlayerCyborg().setLocation(findBase(1).getLocation());
 				}
 				numberOfBase++;
+			}
+			if(gO instanceof NonPlayerCyborg)
+			{
+				NonPlayerCyborg npc =  (NonPlayerCyborg) gO;
+				float x,y;
+				x= this.findBase(1).getX()+random.nextInt(100)-50;
+				y= this.findBase(1).getY()+random.nextInt(100)-50;
+				if(x<0)
+				{
+					x=0;
+				}else if(x>1000)
+				{
+					x=1000;
+				}
+				if(y<0)
+				{
+					y=0;
+				}else if(y>1000)
+				{
+					y=1000;
+				}
+				npc.setLocation(x,y);
+				if(random.nextInt(2)==0)
+				{
+					npc.setStrategy(new AttackPlayerCyborgStrategy(npc,this));
+				}else
+				{
+					npc.setStrategy(new ReachToLastBaseStrategy(npc,this));
+				}
+				npc.invokeStratergy();
 			}
 		}
 		for(int i=1; i<= numberOfDrone; i++)
@@ -195,7 +226,6 @@ public class GameWorld extends Observable implements IGameWorld {
 		{
 			createGameObject(e);
 		}
-		
 		InformObservers();
 	}
 	public PlayerCyborg findPlayerCyborg() {
@@ -224,12 +254,12 @@ public class GameWorld extends Observable implements IGameWorld {
 		}
 		return null;
 	}
-	public Base findBase() {
+	public Base findBase(int baseNumber) {
 		IIterator theObjects = myObjectCollection.getIterator();
 		while(theObjects.hasNext())
 		{
 			GameObject gO= theObjects.getNext();
-			if(gO instanceof Base)
+			if(gO instanceof Base && ((Base) gO).getSequenceNumber()== baseNumber)
 			{
 				return (Base) gO;
 			}
@@ -321,6 +351,9 @@ public class GameWorld extends Observable implements IGameWorld {
 					NonPlayerCyborg n = (NonPlayerCyborg) mov;
 					n.setSpeedWithDamage(n.getDamageLevel());
 					n.move();
+					n.setHeading(n.getHeading()+n.getSteeringDirection());
+					n.checkHeadingBoudaries();
+					n.invokeStratergy();
 				}
 			}
 		}
@@ -392,15 +425,16 @@ public class GameWorld extends Observable implements IGameWorld {
 	}
 
 	public void cyborgBreak() {
-		int lastSpeedBreak=this.findPlayerCyborg().getSpeedWithDamege();
+		int lastSpeedBreak=this.findPlayerCyborg().getSpeedWithDamage();
 		this.findPlayerCyborg().slowDown();
-		if(this.findPlayerCyborg().getSpeedWithDamege()!=lastSpeedBreak)
+		if(this.findPlayerCyborg().getSpeedWithDamage()!=lastSpeedBreak)
 		{
-			System.out.println("Your Cyborg's speed is "+ this.findPlayerCyborg().getSpeedWithDamege() + " units per tick");
+			System.out.println("Your Cyborg's speed is "+ this.findPlayerCyborg().getSpeedWithDamage() + " units per tick");
 		}
 		this.InformObservers();
 	}
 	public void SpeedUp() {
+		this.findPlayerCyborg().speedUp();
 		this.InformObservers();
 	}
 	public void collideWithCyborg()
@@ -512,15 +546,9 @@ public class GameWorld extends Observable implements IGameWorld {
 		return this.findPlayerCyborg().getDamageLevel();
 	}
 	public void collideWithDrone() {
-		// TODO Auto-generated method stub
+		this.findPlayerCyborg().collideWithDrone();
 		this.setConsoleDisplay("Cyborg just collided a Drone\n" );
 		this.InformObservers();;
-	}
-	public void ChangeStrategies() {
-		
-		
-		this.InformObservers();
-		
 	}
 	public void about() {
 		this.InformObservers();		
@@ -529,22 +557,31 @@ public class GameWorld extends Observable implements IGameWorld {
 		this.InformObservers();	
 	}
 	public void turnLeft() {
+		this.findPlayerCyborg().changeHeading('l');
 		this.setConsoleDisplay("Cyborg turned left\n");
 		this.InformObservers();
 	}
 	public void rightTurn() {
+		this.findPlayerCyborg().changeHeading('r');
 		this.setConsoleDisplay("Cyborg turned right\n");
 		this.InformObservers();
 	}
 
-	public void changeStrategy(char c) {
+	public void changeStrategy(char a) {
 		IIterator theObjects = myObjectCollection.getIterator();
 		while(theObjects.hasNext())
 		{
 			GameObject gO= theObjects.getNext();
 			if(gO instanceof NonPlayerCyborg)
 			{
-				((NonPlayerCyborg) gO).setStrategy(c);
+				if(a=='a')
+				{
+					((NonPlayerCyborg) gO).setStrategy(new AttackPlayerCyborgStrategy((NonPlayerCyborg) gO,this));
+				}
+				else if(a=='r')
+				{
+					((NonPlayerCyborg) gO).setStrategy(new ReachToLastBaseStrategy((NonPlayerCyborg) gO,this));
+				}
 			}
 		
 		}

@@ -10,6 +10,7 @@ import com.codename1.ui.events.ActionEvent;
 public class ChangeStrategyCommand extends Command{
 
 	private GameWorld gw;
+
 	GameObjectCollection objCollection = new GameObjectCollection(gw);
 	public ChangeStrategyCommand(GameWorld gw) {
 		super("Change Strategies");
@@ -22,7 +23,7 @@ public class ChangeStrategyCommand extends Command{
 		Command cStrategyTwo = new Command("Racing To Last Base");
 		Command cCancel =  new Command("Cancel");
 		Command[] cmds = new Command[] {cStrategyOne, cStrategyTwo,cCancel};
-		Command c = Dialog.show("Enter the base number: ", "", cmds);
+		Command c = Dialog.show("Choose a Strategy ", "", cmds);
 		if(c==cStrategyOne) {
 			gw.setConsoleDisplay("NPC changed to Attacking Player\n");
 			System.out.println("NPC just changed to Strategy Attacking Player");
@@ -33,7 +34,7 @@ public class ChangeStrategyCommand extends Command{
 			gw.setConsoleDisplay("NPC changed to Race To The Last Base\n");
 			System.out.println("NPC just changed to Race To Last Base");
 			//invoke Strategy Two
-			gw.changeStrategy('b');
+			gw.changeStrategy('r');
 		}
 	}
 	

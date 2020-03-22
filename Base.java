@@ -24,8 +24,6 @@ public class Base extends Fixed {
 	@Override
 	public void setSize(int size) {}
 	public void setColor(int color) {}
-	public void setLocation(double x, double y)
-	{}
 	public String toString() {
 		String thisclassData;
 		thisclassData="Base  "+ super.toString()+(" SequenceNunmber = "+this.getSequenceNumber());
