@@ -16,8 +16,6 @@ public class TurnRightCommand extends Command{
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		
-		gw.findPlayerCyborg().changeHeading('r');
 		gw.rightTurn();
 		System.out.println("Steering Right");
 	}

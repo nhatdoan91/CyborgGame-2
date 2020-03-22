@@ -19,6 +19,7 @@ public class PlayerCyborg extends Cyborg {
 		this.setColor(ColorUtil.BLUE);
 		this.setSize(15);
 		this.setRandomLocation();
+		this.setSpeedWithDamage(0);
 	}
 	public static PlayerCyborg getPlayerCyborg() {
 		if(myCyborg==null)
@@ -31,6 +32,7 @@ public class PlayerCyborg extends Cyborg {
 	 {
 		this.setDamageLevel(this.getDamageLevel()+5);
 		this.setColor(ColorUtil.rgb(0, 0, (this.getDamageLevel()*250)/10));
+		this.setSpeedWithDamage(this.getDamageLevel());
 	 }
 	public String cyborgCollide()
 	{
@@ -47,6 +49,7 @@ public class PlayerCyborg extends Cyborg {
 	{
 		this.setDamageLevel(this.getDamageLevel()+3);
 		super.setColor(ColorUtil.rgb(0, 0, (this.getDamageLevel()*250)/10));
+		this.setSpeedWithDamage(this.getDamageLevel());
 	}
 
 	public String toString() {

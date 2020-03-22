@@ -7,7 +7,7 @@ abstract public class Movable extends GameObject{
 	private float movY;
 	private int speedWithDamage;
 	
-	public int getSpeedWithDamege()
+	public int getSpeedWithDamage()
 	{
 		return this.speedWithDamage;
 	}
@@ -28,7 +28,7 @@ abstract public class Movable extends GameObject{
 	}
 	private void setMovX()
 	{
-		this.movX=Math.round((Math.cos(Math.toRadians(-(this.heading-90)))*this.getSpeedWithDamege()));
+		this.movX=Math.round((Math.cos(Math.toRadians(-(this.heading-90)))*this.getSpeedWithDamage()));
 	}
 	private float getMovX()
 	{
@@ -36,7 +36,7 @@ abstract public class Movable extends GameObject{
 	}
 	private void setMovY()
 	{
-		this.movY=Math.round((Math.sin(Math.toRadians(-(this.heading-90)))*this.getSpeedWithDamege()));
+		this.movY=Math.round((Math.sin(Math.toRadians(-(this.heading-90)))*this.getSpeedWithDamage()));
 	}
 	private float getMovY()
 	{
@@ -72,7 +72,7 @@ abstract public class Movable extends GameObject{
 	@Override
 	public String toString()
 	{
-		String thisCLassData=" heading = "+this.getHeading()+" speed = " +this.getSpeed();
+		String thisCLassData=" heading = "+this.getHeading()+" speed = " +this.getSpeedWithDamage();
 		thisCLassData =super.toString()+ thisCLassData;
 		return thisCLassData;
 	}

@@ -16,7 +16,6 @@ public class LeftTurnCommand extends Command{
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		gw.findPlayerCyborg().changeHeading('l');
 		gw.turnLeft();
 		System.out.println("Steering Left");
 	}

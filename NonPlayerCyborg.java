@@ -7,10 +7,10 @@ public class NonPlayerCyborg extends Cyborg{
 	private Random random = new Random();
 	private IStrategy currentStrategy;
 	public NonPlayerCyborg() {
-		this.setSteeringDirection(random.nextInt(40));
+		this.setSteeringDirection(0);
 		this.setHeading(random.nextInt(360));
-		this.setSpeed(25+random.nextInt(20));
-		this.setMaximumSpeed(45);
+		this.setSpeed(0);
+		this.setMaximumSpeed(30+random.nextInt(15));
 		this.setEnergyConsumptionRate(0);;
 		this.setDamageLevel(0);
 		this.setEnergyLevel(100);;
@@ -18,28 +18,17 @@ public class NonPlayerCyborg extends Cyborg{
 		this.setColor(ColorUtil.YELLOW);
 		this.setSize(20);
 		this.setRandomLocation();
-		if(random.nextInt(2)==0)
-		{
-			currentStrategy= new ReachToLastBaseStrategy(this);
-		}else
-		{
-			currentStrategy = new AttackPlayerCyborgStrategy(this);
-		}
+		this.setSpeedWithDamage(0);
 	}
 	
 	public void collideWithPlayerCyborg()
 	 {
 		this.setDamageLevel(this.getDamageLevel()+2);
 		this.setColor(ColorUtil.rgb(0, 0, (this.getDamageLevel()*250)/10));
+		this.setSpeedWithDamage(this.getDamageLevel());
 	 }
-	public void setStrategy(char a) {
-		if(a=='a')
-		{
-			currentStrategy=new AttackPlayerCyborgStrategy(this);
-		}else if(a =='b')
-		{
-			currentStrategy=new ReachToLastBaseStrategy(this);
-		}
+	public void setStrategy(IStrategy s) {
+			currentStrategy=s;
 	}
 	public void invokeStratergy() {
 		currentStrategy.apply();

@@ -1,6 +1,6 @@
 package com.mycompany.a2;
 import java.util.Random;
-
+import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 
 
@@ -56,12 +56,6 @@ abstract public class GameObject extends GameWorld{
 	public int getColor()
 	{
 		return this.color; 
-	}
-	public void displayObjects()
-	{
-		System.out.print("loc = "+this.getX()+", " + this.getY()+ " color = " + "[" + ColorUtil.red(this.getColor()) + "," 
-					+ ColorUtil.green(this.getColor()) + "," +  
-					 ColorUtil.blue(this.getColor()) + "] size = " +this.getSize());
 	}
 	@Override
 	public String toString() {
